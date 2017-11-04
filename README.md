@@ -1,2 +1,6 @@
-# central_pixel
-This script finds the central pixel of an image
+# Базовые скрипты к курсу обработки изображений
+
+central_pixel.py -- меняет цвет центрального пикселя картинки на зеленый;     
+paint_image_area.py -- поменять цвет прямоугольника заданного размера на картинке;        
+
+
