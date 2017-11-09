@@ -12,34 +12,33 @@ img = imread('tiger-border.png')
 
 
 def remove_borders(img):
-  border = [0, 0, 0, 0] #граница ЛЕВАЯ ВЕРХНЯЯ ПРАВАЯ НИЖНЯЯ
-	width = img.shape[0]  #ширина фото в пикселях
-	height = img.shape[1] #высота
-	#print(width, height)
-	#print(img.shape)
+    border = [0, 0, 0, 0] #граница ЛЕВАЯ ВЕРХНЯЯ ПРАВАЯ НИЖНЯЯ
+    width = img.shape[0]  #ширина фото в пикселях
+    height = img.shape[1] #высота
+    #print(width, height)
+    #print(img.shape)
 
-	#Посмотрим на число, кодирующее цвет левого верхнего пикселя (рамки)
-	border_color = img[0, 0]  # [ 81 243 165]
+    #Посмотрим на число, кодирующее цвет левого верхнего пикселя (рамки)
+    border_color = img[0, 0]  # [ 81 243 165]
+
+    for i in range(width): # Цикл идет СЛЕВА 
+        for j in range(height): # Цикл идет СВЕРХУ
+            if not np.array_equal(img[i,j], border_color): # если вдруг пиксели стали не равны зеленому цвету...
+                # обозначаем место, где прошла граница между зеленым и незеленым
+		left = width - i - 1  # граница СЛЕВА
+		top = height - j - 1  # граница СВЕРХУ
 
 
-	for i in range(width): # Цикл идет СЛЕВА 
-		for j in range(height): # Цикл идет СВЕРХУ
-			if not np.array_equal(img[i,j], border_color): # если вдруг пиксели стали не равны зеленому цвету...
-				# обозначаем место, где прошла граница между зеленым и незеленым
-				left = width - i - 1  # граница СЛЕВА
-				top = height - j - 1  # граница СВЕРХУ
+    for k in reversed(range(width)): # Цикл идет СПРАВА
+        for l in reversed(range(height)): # Цикл идет СНИЗУ
+            if not np.array_equal(img[k,l], border_color): # если вдруг пиксели стали не равны зеленому цвету...
+		right = k # граница СПРАВА
+		bottom = l # граница СНИЗУ
 
-
-	for k in reversed(range(width)): # Цикл идет СПРАВА
-		for l in reversed(range(height)): # Цикл идет СНИЗУ
-			if not np.array_equal(img[k,l], border_color): # если вдруг пиксели стали не равны зеленому цвету...
-				right = k # граница СПРАВА
-				bottom = l # граница СНИЗУ
-
-	border = list(reversed([left, top, right, bottom]))
-	print('Left, Top, Right, Bottom: ')
-	for i in border:
-		print(i, end=' ')
+    border = list(reversed([left, top, right, bottom]))
+    print('Left, Top, Right, Bottom: ')
+    for i in border:
+        print(i, end=' ')
 
 
 remove_borders(img)
