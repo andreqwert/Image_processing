@@ -38,7 +38,7 @@ def remove_borders(img):
     border = list(reversed([left, top, right, bottom]))
     print('Left, Top, Right, Bottom: ')
     for i in border:
-        print(i, end=' ')
+        print(i, end=' ') # чтоб выводилось в строчку через пробел
 
 
 remove_borders(img)
