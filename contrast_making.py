@@ -41,7 +41,7 @@ def f(img, min_br, max_br):
 
     img_contrast = (img - min_br) * (255 / (max_br - min_br)) # преобразование ко всему массиву img
     img_i = img_contrast.astype('uint8') # перевод из вещественных в целые числа
-    imsave('123.png', img_i)
+    imsave('tiger-high-contrast.png', img_i)
 
 
 pixels_min_max_bright = pixel_min_max_brightness()
