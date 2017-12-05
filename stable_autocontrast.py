@@ -16,34 +16,34 @@ import numpy as np
 
 
 def find_minmax_pixels():
-	img = imread('tiger-low-contrast.png')
-	img = img.astype('float') # перевод диапазона в вещественные числа
+    img = imread('tiger-low-contrast.png')
+    img = img.astype('float') # перевод диапазона в вещественные числа
 
-	"""Подсчёт числа отбрасываемых пикселей"""
-	k = round(img.size * 0.05)
+    """Подсчёт числа отбрасываемых пикселей"""
+    k = round(img.size * 0.05)
 
-	# Вытягивание массива пикселей
-	extended_img = []
-	for pixel_row in img:
-		for pixel in pixel_row:
-			extended_img.append(pixel)
-	extended_img.sort()
-	extended_img = np.array(extended_img)
+    # Вытягивание массива пикселей
+    extended_img = []
+    for pixel_row in img:
+        for pixel in pixel_row:
+            extended_img.append(pixel)
+    extended_img.sort()
+    extended_img = np.array(extended_img)
 
-	img_rescaled = extended_img[(k+1):-(k+1)] # отбрасываем пиксели
+    img_rescaled = extended_img[(k+1):-(k+1)] # отбрасываем пиксели
 
-	xmin = img_rescaled[0]
-	xmax = img_rescaled[-1]
-	return img, xmin, xmax
+    xmin = img_rescaled[0]
+    xmax = img_rescaled[-1]
+    return img, xmin, xmax
 
 
 
 def make_linear_brightness(img, xmin, xmax):
-	"""Линейное выравнивание яркости"""
-	img_contrast = (img - xmin) * (255 / (xmax - xmin)) # преобразование ко всему массиву img
-	done_img = np.clip(img_contrast, 0, 255) # если пиксель < 0 -> поставить 0; если > 0 -> поставить 255
-	done_img = done_img.astype('uint8')
-	imsave('out.png', done_img)
+    """Линейное выравнивание яркости"""
+    img_contrast = (img - xmin) * (255 / (xmax - xmin)) # преобразование ко всему массиву img
+    done_img = np.clip(img_contrast, 0, 255) # если пиксель < 0 -> поставить 0; если > 0 -> поставить 255
+    done_img = done_img.astype('uint8')
+    imsave('out.png', done_img)
 
 
 
