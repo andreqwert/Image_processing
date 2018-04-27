@@ -1,7 +1,7 @@
 """
 Выравнивание гистрограммы.
 
-Когда применять: когда все пиксели похожи друг на друга и сложно визуально понять, что находится на изображении.
+Когда применять: когда все пикселм похожи друг на друга и сложно визуально понять, что находится на изображении.
 
 Функция распределения в таком случае очень неравномерна.
 Задача состоит в том, чтобы сделать функцию распределения (cdf) равномерной, превратив ее в линейную.
@@ -16,6 +16,7 @@ cdf_min - такое значение cdf(x), что cdf(x) != 0
 
 from skimage.io import imread, imsave
 import skimage
+import itertools
 import numpy as np
 
 
@@ -34,19 +35,23 @@ def make_histogram(img):
     h = np.zeros(256, np.uint32) # создаем массив из 256 нулей 
     for value in img.flatten(): # flatten returns a copy of the array collapsed into one dimension.
         h[value] += 1 # строим гистограмму
-    print('h: \n', np.array(h))
     return np.array(h)
 
 
 def make_cdf(h):
+    """Строим функцию распределения"""
+    # Как работает itertools.accumulate:
+    # 2 -> h(0) + h(1) + h(2)
+    # 5 -> h(0) + h(1) + h(2) + h(3) + h(4) + h(5)
+    # 179 -> h(0) + h(1) + ... + h(179)
     cdf = np.zeros(256, np.uint32) # массив из 256 нулей
     for value in range(256):
-        cdf[value] = cdf[value-1] + h[value] # аккумулируем сумму
-    print('cdf: \n', np.array(cdf))
+        cdf = list(itertools.accumulate(h)) # аккумулируем сумму
     return np.array(cdf)
 
 
 def compute_cdf_min(cdf):
+    """Вычисляем минимальное значение функции распределения (для формулы)"""
     values = sorted(list(set(cdf))) # удалили повторяющиеся значения
     for value in values:
         if values[0] == 0:
@@ -73,7 +78,5 @@ hist = make_histogram(image)
 cdf = make_cdf(hist)
 min_cdf = compute_cdf_min(cdf)
 aligned_image = align_histogram(image, min_cdf, pixels_num, 'aligned.png')
-
-
 
 
